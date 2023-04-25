@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(TriangleCrossing)
 
-add_executable(main main.cpp)
+add_executable(TriangleCrossing main.cpp Point.h Triangle.h Triangle.cpp Intersection.h Intersection.cpp Line.h Line.cpp)
