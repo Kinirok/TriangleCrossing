@@ -10,9 +10,7 @@ add_subdirectory(
         "${CMAKE_CURRENT_SOURCE_DIR}/googletest"
         "googletest"
 )
-
 include_directories(lib/googletest/googletest/include)
+add_executable(TriangleCrossing main.cpp Point.h Triangle.h Triangle.cpp Intersection.h Intersection.cpp Line.h Line.cpp PointTests.cpp TriangleTests.cpp IntersectionTests.cpp)
 
-add_executable(TriangleCrossing main.cpp Point.h Triangle.h Triangle.cpp Intersection.h Intersection.cpp Line.h Line.cpp )
-
-target_link_libraries(TriangleCrossing gtest)
+target_link_libraries(TriangleCrossing gtest gtest_main)
