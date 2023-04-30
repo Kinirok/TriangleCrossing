@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "Triangle.h"
+#include "../src/logics/Triangle.h"
 
 class TriangleFixture : public ::testing::Test {
 

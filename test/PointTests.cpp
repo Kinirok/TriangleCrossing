@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
-#include "Point.h"
-
+#include "../src/logics/Point.h"
 class PointFixture : public ::testing::Test {
 protected:
     virtual void SetUp() {
