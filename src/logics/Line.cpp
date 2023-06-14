@@ -39,7 +39,8 @@ void Line::LinesIntersection(std::vector<Line> &LinesFigure, Intersection Figure
         Line LineIFigure(Figure.GetCoordinatesIntersection()[i], Figure.GetCoordinatesIntersection()[i+1]);
         LinesFigure.push_back(LineIFigure);
     }
-    Line LastLineFigure(Figure.GetCoordinatesIntersection()[-1], Figure.GetCoordinatesIntersection()[0]);
+
+    Line LastLineFigure(Figure.GetCoordinatesIntersection()[size-1], Figure.GetCoordinatesIntersection()[0]);
     LinesFigure.push_back(LastLineFigure);
 }
 
@@ -52,12 +53,7 @@ double Line::DeterminantMatrix2x2(double A11, double A12, double A21, double A22
 
 void Line::IntersectionOfLines(Intersection& PolygonPoints, Line Eq1, Line Eq2){
 	//Kramer
-    std::cout<<Eq1.A<<std::endl;
-    std::cout<<Eq1.B<<std::endl;
-    std::cout<<Eq1.C<<std::endl;
-    std::cout<<Eq2.A<<std::endl;
-    std::cout<<Eq2.B<<std::endl;
-    std::cout<<Eq2.C<<std::endl;
+
 	double Determinant = DeterminantMatrix2x2(Eq1.GetA(), Eq1.GetB(), Eq2.GetA(), Eq2.GetB());
 	if (Determinant == 0){
 		return;
@@ -69,7 +65,7 @@ void Line::IntersectionOfLines(Intersection& PolygonPoints, Line Eq1, Line Eq2){
 
 	Point PointIntersection(DeterminantX / Determinant, DeterminantY / Determinant);
 
-    PointIntersection.PrintPoint();
+
 	//where point locate
 	if ((PointIntersection.GetX() < Eq1.FirstPoint.GetX() or PointIntersection.GetX() > Eq1.SecondPoint.GetX()) or (PointIntersection.GetX() < Eq2.FirstPoint.GetX() or PointIntersection.GetX() > Eq2.SecondPoint.GetX())){
 		return;//the point is located behind or in front of the segments
