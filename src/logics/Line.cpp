@@ -33,15 +33,16 @@ Line::Line(Point FirstPoint, Point SecondPoint) {
 	}
 }
 
-void Line::LinesTriangle(std::vector<Line>& LinesFigure, Triangle Figure){
-	Line Line1Figure(Figure.GetCoordinatesTriangle()[0], Figure.GetCoordinatesTriangle()[1]);
-	Line Line2Figure(Figure.GetCoordinatesTriangle()[1], Figure.GetCoordinatesTriangle()[2]);
-	Line Line3Figure(Figure.GetCoordinatesTriangle()[2], Figure.GetCoordinatesTriangle()[0]);
-
-	LinesFigure.push_back(Line1Figure);
-	LinesFigure.push_back(Line2Figure);
-	LinesFigure.push_back(Line3Figure);
+void Line::LinesIntersection(std::vector<Line> &LinesFigure, Intersection Figure){
+    int size=Figure.GetSize();
+    for (int i=0;i<size-1;i++){
+        Line LineIFigure(Figure.GetCoordinatesIntersection()[i], Figure.GetCoordinatesIntersection()[i+1]);
+        LinesFigure.push_back(LineIFigure);
+    }
+    Line LastLineFigure(Figure.GetCoordinatesIntersection()[-1], Figure.GetCoordinatesIntersection()[0]);
+    LinesFigure.push_back(LastLineFigure);
 }
+
 
 
 
@@ -51,6 +52,12 @@ double Line::DeterminantMatrix2x2(double A11, double A12, double A21, double A22
 
 void Line::IntersectionOfLines(Intersection& PolygonPoints, Line Eq1, Line Eq2){
 	//Kramer
+    std::cout<<Eq1.A<<std::endl;
+    std::cout<<Eq1.B<<std::endl;
+    std::cout<<Eq1.C<<std::endl;
+    std::cout<<Eq2.A<<std::endl;
+    std::cout<<Eq2.B<<std::endl;
+    std::cout<<Eq2.C<<std::endl;
 	double Determinant = DeterminantMatrix2x2(Eq1.GetA(), Eq1.GetB(), Eq2.GetA(), Eq2.GetB());
 	if (Determinant == 0){
 		return;
@@ -62,7 +69,7 @@ void Line::IntersectionOfLines(Intersection& PolygonPoints, Line Eq1, Line Eq2){
 
 	Point PointIntersection(DeterminantX / Determinant, DeterminantY / Determinant);
 
-
+    PointIntersection.PrintPoint();
 	//where point locate
 	if ((PointIntersection.GetX() < Eq1.FirstPoint.GetX() or PointIntersection.GetX() > Eq1.SecondPoint.GetX()) or (PointIntersection.GetX() < Eq2.FirstPoint.GetX() or PointIntersection.GetX() > Eq2.SecondPoint.GetX())){
 		return;//the point is located behind or in front of the segments
@@ -77,16 +84,11 @@ void Line::IntersectionOfLines(Intersection& PolygonPoints, Line Eq1, Line Eq2){
 			return;
 		}
 	}
-	//if point one of vertex 
-	if ((PointIntersection.GetX() == Eq1.FirstPoint.GetX() and PointIntersection.GetY() == Eq1.FirstPoint.GetY()) 
-		or (PointIntersection.GetX() == Eq1.SecondPoint.GetX() and PointIntersection.GetY() == Eq1.SecondPoint.GetY())){
-		//check if point already added
-		for (int i = 0; i < PolygonPoints.GetCoordinatesIntersection().size(); i++){
-			if (PolygonPoints.GetCoordinatesIntersection()[i].GetX() == PointIntersection.GetX() 
-				and PolygonPoints.GetCoordinatesIntersection()[i].GetY() == PointIntersection.GetY()){
-				return;//already added
-			}
-		}
-	}
+    for (int i = 0; i < PolygonPoints.GetCoordinatesIntersection().size(); i++){
+        if (PolygonPoints.GetCoordinatesIntersection()[i].GetX() == PointIntersection.GetX()
+            and PolygonPoints.GetCoordinatesIntersection()[i].GetY() == PointIntersection.GetY()){
+            return;//already added
+        }
+    }
 	PolygonPoints.SetIntersectionPoint(PointIntersection);
 }

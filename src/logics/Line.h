@@ -15,7 +15,7 @@ public:
 	double GetA() { return A; }
 	double GetB() { return B; }
 	double GetC() { return C; }
-	void LinesTriangle(std::vector<Line>& LinesFigure, Triangle Figure);
+	void LinesIntersection(std::vector<Line> &LinesFigure, Intersection Figure);
 	double DeterminantMatrix2x2(double A11, double A12, double A21, double A22);
 	void IntersectionOfLines(Intersection& PolygonPoints, Line Eq1, Line Eq2);
 };
