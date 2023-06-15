@@ -4,10 +4,8 @@ Line::Line() {
 	this->A = 0;
 	this->B = 0;
 	this->C = 0;
-	Point FirstPoint(0, 0);
-	this->FirstPoint = FirstPoint;
-	Point SecondPoint(0, 0);
-	this->SecondPoint = SecondPoint;
+	this->FirstPoint = Point::Point(0, 0);
+	this->SecondPoint = Point::Point(0, 0);
 }
 
 
