@@ -162,10 +162,20 @@ void FindPointsInsideFigure(Intersection& AllPoints, std::vector<Point> Figure1,
                     First = Line::Line(Figure2[j], Figure2[indexForBegin]);            
                     Second = Line::Line(Figure2[j], Figure2[indexForEnd]);
                 }
-                else {
+                else if(Figure2[indexForBegin].GetX() > Figure2[indexForEnd].GetX()) {
                     First = Line::Line(Figure2[j], Figure2[indexForEnd]);
                     Second = Line::Line(Figure2[j], Figure2[indexForBegin]);
-                }               
+                }  
+                else {
+                    if (Figure2[indexForBegin].GetY() < Figure2[indexForEnd].GetY()) {
+                        First = Line::Line(Figure2[j], Figure2[indexForEnd]);
+                        Second = Line::Line(Figure2[j], Figure2[indexForBegin]);
+                    }
+                    else {
+                        First = Line::Line(Figure2[j], Figure2[indexForBegin]);
+                        Second = Line::Line(Figure2[j], Figure2[indexForEnd]);
+                    }
+                }
                 bool isUpperSide = true;
                 for (int k = 0; k < Figure2.size(); k++) {
                     if (Figure2[j].GetY() > Figure2[k].GetY()) {
@@ -174,23 +184,19 @@ void FindPointsInsideFigure(Intersection& AllPoints, std::vector<Point> Figure1,
                 }
                 if ((isUpperSide == true and Figure1[i].GetY() > Figure2[j].GetY()) or (isUpperSide == false and Figure1[i].GetY() < Figure2[j].GetY())) {
                     if (First.GetA() != 0 and Second.GetA() != 0) {
-                        std::cout << "botha are not 0 FirstA = " << First.GetA() << "; SecondA = " << Second.GetA()<<std::endl;
-                        if (!(First.GetXbyY(Figure1[i].GetY()) < Figure1[i].GetX() < Second.GetXbyY(Figure1[i].GetY()))) {
-                            std::cout << "drop1"<<std::endl;
+                        if (!(First.GetXbyY(Figure1[i].GetY()) < Figure1[i].GetX() and Figure1[i].GetX() < Second.GetXbyY(Figure1[i].GetY()))) {
                             isInside = false;
                             break;
                         }
                     }
                     else if (First.GetA() == 0 and Second.GetA() != 0) {                        
                         if (!(Figure1[i].GetX() < Second.GetXbyY(Figure1[i].GetY()))) {
-                            std::cout << "drop2" << std::endl;
                             isInside = false;
                             break;
                         }
                     }
                     else if (First.GetA() != 0 and Second.GetA() == 0) {
                         if (!(First.GetXbyY(Figure1[i].GetY()) < Figure1[i].GetX())) {
-                            std::cout << "drop3" << std::endl;
                             isInside = false;
                             break;
                         }
@@ -206,9 +212,19 @@ void FindPointsInsideFigure(Intersection& AllPoints, std::vector<Point> Figure1,
                     First = Line::Line(Figure2[j], Figure2[indexForBegin]);
                     Second = Line::Line(Figure2[j], Figure2[indexForEnd]);
                 }
-                else {
+                else if(Figure2[indexForBegin].GetY() > Figure2[indexForEnd].GetY()) {
                     First = Line::Line(Figure2[j], Figure2[indexForEnd]);
                     Second = Line::Line(Figure2[j], Figure2[indexForBegin]);
+                }
+                else {
+                    if (Figure2[indexForBegin].GetX() > Figure2[indexForEnd].GetX()) {
+                        First = Line::Line(Figure2[j], Figure2[indexForEnd]);
+                        Second = Line::Line(Figure2[j], Figure2[indexForBegin]);
+                    }
+                    else {
+                        First = Line::Line(Figure2[j], Figure2[indexForBegin]);
+                        Second = Line::Line(Figure2[j], Figure2[indexForEnd]);
+                    }
                 }
                 bool isRightSide = true;
                 for (int k = 0; k < Figure2.size(); k++) {
@@ -218,7 +234,7 @@ void FindPointsInsideFigure(Intersection& AllPoints, std::vector<Point> Figure1,
                 }
                 if ((isRightSide == true and Figure1[i].GetX() > Figure2[j].GetX()) or (isRightSide == false and Figure1[i].GetX() < Figure2[j].GetX())) {
                     if (First.GetB() != 0 and Second.GetB() != 0) {
-                        if (!(First.GetYbyX(Figure1[i].GetX()) < Figure1[i].GetY() < Second.GetYbyX(Figure1[i].GetX()))) {
+                        if (!(First.GetYbyX(Figure1[i].GetX()) < Figure1[i].GetY() and Figure1[i].GetY() < Second.GetYbyX(Figure1[i].GetX()))) {
                             
                             isInside = false;
                             break;
@@ -263,9 +279,19 @@ void FindPointsInsideFigure(Intersection& AllPoints, std::vector<Point> Figure1,
                     First= Line::Line(Figure1[j], Figure1[indexForBegin]);
                     Second = Line::Line(Figure1[j], Figure1[indexForEnd]);
                 }
-                else {
+                else if(Figure1[indexForBegin].GetX() > Figure1[indexForEnd].GetX()){
                     First = Line::Line(Figure1[j], Figure1[indexForEnd]);
                     Second = Line::Line(Figure1[j], Figure1[indexForBegin]);
+                }
+                else {
+                    if (Figure2[indexForBegin].GetY() < Figure2[indexForEnd].GetY()) {
+                        First = Line::Line(Figure2[j], Figure2[indexForEnd]);
+                        Second = Line::Line(Figure2[j], Figure2[indexForBegin]);
+                    }
+                    else {
+                        First = Line::Line(Figure2[j], Figure2[indexForBegin]);
+                        Second = Line::Line(Figure2[j], Figure2[indexForEnd]);
+                    }
                 }
                 bool isUpperSide = true;
                 for (int k = 0; k < Figure1.size(); k++) {
@@ -275,7 +301,7 @@ void FindPointsInsideFigure(Intersection& AllPoints, std::vector<Point> Figure1,
                 }
                 if ((isUpperSide == true and Figure2[i].GetY() > Figure1[j].GetY()) or (isUpperSide == false and Figure2[i].GetY() < Figure1[j].GetY())) {
                     if (First.GetA() != 0 and Second.GetA() != 0) {
-                        if (!(First.GetXbyY(Figure2[i].GetY()) < Figure2[i].GetX() < Second.GetXbyY(Figure2[i].GetY()))) {
+                        if (!(First.GetXbyY(Figure2[i].GetY()) < Figure2[i].GetX() and Figure2[i].GetX() < Second.GetXbyY(Figure2[i].GetY()))) {
                             isInside = false;
                             break;
                         }
@@ -303,10 +329,21 @@ void FindPointsInsideFigure(Intersection& AllPoints, std::vector<Point> Figure1,
                     First = Line::Line(Figure1[j], Figure1[indexForBegin]);
                     Second = Line::Line(Figure1[j], Figure1[indexForEnd]);
                 }
-                else {
+                else if (Figure1[indexForBegin].GetY() > Figure1[indexForEnd].GetY()) {
                     First = Line::Line(Figure1[j], Figure1[indexForEnd]);
                     Second = Line::Line(Figure1[j], Figure1[indexForBegin]);
                 }
+                else {
+                    if (Figure2[indexForBegin].GetX() > Figure2[indexForEnd].GetX()) {
+                        First = Line::Line(Figure2[j], Figure2[indexForEnd]);
+                        Second = Line::Line(Figure2[j], Figure2[indexForBegin]);
+                    }
+                    else {
+                        First = Line::Line(Figure2[j], Figure2[indexForBegin]);
+                        Second = Line::Line(Figure2[j], Figure2[indexForEnd]);
+                    }
+                }
+
                 bool isRightSide = true;
                 for (int k = 0; k < Figure1.size(); k++) {
                     if (Figure1[j].GetX() > Figure1[k].GetX()) {
@@ -315,7 +352,7 @@ void FindPointsInsideFigure(Intersection& AllPoints, std::vector<Point> Figure1,
                 }
                 if ((isRightSide == true and Figure2[i].GetX() > Figure1[j].GetX()) or (isRightSide == false and Figure2[i].GetX() < Figure1[j].GetX())) {
                     if (First.GetB() != 0 and Second.GetB() != 0) {
-                        if (!(First.GetYbyX(Figure2[i].GetX()) < Figure2[i].GetY() < Second.GetYbyX(Figure2[i].GetX()))) {
+                        if (!(First.GetYbyX(Figure2[i].GetX()) < Figure2[i].GetY() and Figure2[i].GetY()  < Second.GetYbyX(Figure2[i].GetX()))) {
                             isInside = false;
                             break;
                         }
