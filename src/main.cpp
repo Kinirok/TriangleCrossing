@@ -1,11 +1,12 @@
-#include "logics/Line.h"
-#include <iostream>
-#include <vector>
-#include <GL/glut.h>
+#include "Line.h"
+
+//#include <GL/glut.h>
 
 // Global variables for correct work RenderScene function.
 std::vector<Point> TriangleCoordinates;
 std::vector<Point> IntersectionCoordinates;
+
+/*
 
 void ResizeCoordinates(int argc, char* argv[])
 {
@@ -68,110 +69,75 @@ void RenderScene(void)
     glEnd();
     glFlush();
 }
+
+*/
+
 int main(int argc, char* argv[]) {
 
-    /*
-    //point use example
-    Point A(0, 1);
-    Point B(1, 3);
-    Point C(3.4, 6);
-    Point D(0, 0);
-    Point E(1, 1);
-    Point F(1.5, 1.5);
-    //A.PrintPoint();
-    //double x2 = B.GetX();
-    //std::cout << x2<<std::endl;
-    //double distance = A.DistanceTo(B);
-    //std::cout << distance << std::endl;
-
-
-
-    //Triangle use example
-    Triangle Figure1(A, B, C);
-    //Figure1.PrintTriangle();
-    Triangle Figure2(B, A, C);
-    Triangle Figure3(A, B, D);
-    /*
-    if (Figure1.IsIdenticalTriangles(Figure1, Figure2)) {
-        Figure1.PrintTriangle();
-        Figure2.PrintTriangle();
-        std::cout << "Same"<<std::endl;
-    }
-    if (!Figure1.IsIdenticalTriangles(Figure1, Figure3)) {
-        Figure1.PrintTriangle();
-        Figure3.PrintTriangle();
-        std::cout << "Not Same"<<std::endl;
-    }
-
-    Triangle Figure4(D, E,F);
-    /*
-    if (Figure4.IsTriangle()) {
-        std::cout << "Triangle";
-    }
-    else {
-        std::cout << "Not Triangle";
-    }
-    */
-
-
+    double x, y;
     //find intersection
-    Intersection IntersectionTriangle;
-
-    int x, y;
-    std::cout << "Input First Point" << std::endl;
-    std::cin >> x >> y;
-    Point TriangleFirstPointFirst(x, y);
-    TriangleCoordinates.push_back(TriangleFirstPointFirst);
-    std::cout << "Input Second Point" << std::endl;
-    std::cin >> x >> y;
-    Point TriangleFirstPointSecond(x, y);
-    TriangleCoordinates.push_back(TriangleFirstPointSecond);
-    std::cout << "Input Third Point" << std::endl;
-    std::cin >> x >> y;
-    Point TriangleFirstPointThird(x, y);
-    TriangleCoordinates.push_back(TriangleFirstPointThird);
-    Triangle FirstTriangle(TriangleFirstPointFirst, TriangleFirstPointSecond, TriangleFirstPointThird);
-    if (!FirstTriangle.IsTriangle()) {
-        std::cout << "Not A Triangle";
-        return 1;
+    int size1;
+    std::cout << "Input Size First Figure" << std::endl;
+    std::cin >> size1;
+    std::vector<Point> PointsFirstFigure;
+    for (int i = 0; i < size1; i++) {
+        std::cout << "Input " << i + 1 << " Point" << std::endl;
+        std::cin >> x >> y;
+        Point SomePoint(x, y);
+        PointsFirstFigure.push_back(SomePoint);
     }
-
-    std::cout << "Input First Point" << std::endl;
-    std::cin >> x >> y;
-    Point TriangleSecondPointFirst(x, y);
-    TriangleCoordinates.push_back(TriangleSecondPointFirst);
-    std::cout << "Input Second Point" << std::endl;
-    std::cin >> x >> y;
-    Point TriangleSecondPointSecond(x, y);
-    TriangleCoordinates.push_back(TriangleSecondPointSecond);
-    std::cout << "Input Third Point" << std::endl;
-    std::cin >> x >> y;
-    Point TriangleSecondPointThird(x, y);
-    TriangleCoordinates.push_back(TriangleSecondPointThird);
-
-    Triangle SecondTriangle(TriangleSecondPointFirst, TriangleSecondPointSecond, TriangleSecondPointThird);
-    if (!SecondTriangle.IsTriangle()) {
-        std::cout << "Not A Triangle";
-        return 1;
+    Intersection FirstFigure(size1, PointsFirstFigure);
+    if (size1 > 3) {
+        std::vector<Point> convexHullPoints = ConvexHull(PointsFirstFigure);
+        FirstFigure.SetCoordinatesIntersection(convexHullPoints);
+        FirstFigure.SetSize(convexHullPoints.size());
     }
+    FirstFigure.PrintIntersectionPoints();
 
+    int size2;
+    std::cout << "Input Size Second Figure" << std::endl;
+    std::cin >> size2;
+    std::vector<Point> PointsSecondFigure;
+    for (int i = 0; i < size2; i++) {
+        std::cout << "Input " << i + 1 << " Point" << std::endl;
+        std::cin >> x >> y;
+        Point SomePoint(x, y);
+        PointsSecondFigure.push_back(SomePoint);
+    }
+    Intersection SecondFigure(size2, PointsSecondFigure);
+    if (size2 > 3) {
+        std::vector<Point> convexHullPoints2 = ConvexHull(PointsSecondFigure);
+        SecondFigure.SetCoordinatesIntersection(convexHullPoints2);
+        SecondFigure.SetSize(convexHullPoints2.size());
+    }
+    SecondFigure.PrintIntersectionPoints();
 
-    FirstTriangle.PrintTriangle();
-    SecondTriangle.PrintTriangle();
-
-    if (!FirstTriangle.IsIdenticalTriangles(FirstTriangle, SecondTriangle)) {
-        IntersectionTriangle.TriangleIntersectionContour(IntersectionTriangle, FirstTriangle, SecondTriangle);
-        IntersectionTriangle.PrintIntersectionPoints();
+    std::vector<Point> FiguresIntersection;
+    Intersection IntersectionFigure(0, FiguresIntersection);
+    if (!FirstFigure.IsIdenticalIntersection(FirstFigure, SecondFigure)) {
+        IntersectionFigure.FigureIntersectionContour(IntersectionFigure, FirstFigure, SecondFigure);
+        FindPointsInsideFigure(IntersectionFigure, FirstFigure.GetCoordinatesIntersection(), SecondFigure.GetCoordinatesIntersection());
+        IntersectionFigure.SetSize(IntersectionFigure.GetCoordinatesIntersection().size());
+        /*if (IntersectionFigure.GetSize() > 3) {
+            std::vector<Point> Points = IntersectionFigure.GetCoordinatesIntersection();
+            std::vector<Point> SortedPoints = ConvexHull(Points);
+            IntersectionFigure.SetCoordinatesIntersection(SortedPoints);
+        }*/
     }
     else {
-        std::cout << "Triangle are Same";
+        std::cout << "Figures are Same";
     }
-    IntersectionCoordinates = IntersectionTriangle.GetCoordinatesIntersection();
+    IntersectionFigure.PrintIntersectionPoints();
 
+
+
+
+    /*
     glutInit(&argc, argv);
     glutCreateWindow("TriangleCrossing(OpenGL)");
     ResizeCoordinates(argc, argv);
     glutDisplayFunc(RenderScene);
     glutMainLoop();
+    */
     return 0;
 }

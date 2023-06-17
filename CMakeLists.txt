@@ -25,8 +25,7 @@ add_executable(
         Tests
         test/PointTests.cpp
         test/IntersectionTests.cpp
-        test/TriangleTests.cpp
-)
+        test/LineTests.cpp)
 target_link_libraries(TriangleCrossing logics)
 target_link_libraries(Tests gtest gtest_main logics)
 enable_testing()

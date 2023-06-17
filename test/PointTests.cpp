@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../src/logics/Point.h"
+
 class PointFixture : public ::testing::Test {
 protected:
     virtual void SetUp() {
@@ -23,6 +24,10 @@ TEST_F(PointFixture, ConstructorXY) {
     EXPECT_EQ(12, p1.GetY());
 }
 
-TEST_F(PointFixture, CalculateDistanceDistance) {
+TEST_F(PointFixture, CalculateDistanceDistance1) {
     EXPECT_EQ(10.0, p1.DistanceTo(p2));
+}
+
+TEST_F(PointFixture, CalculateDistanceDistance2) {
+    EXPECT_EQ(0, p1.DistanceTo(p1));
 }

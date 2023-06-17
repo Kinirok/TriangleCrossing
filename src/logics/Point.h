@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <cmath>
+#include <algorithm>
+
 class Point
 {
 private:
@@ -22,8 +25,6 @@ public:
 	void PrintPoint(){
 		std::cout << "(" << x << ", " << y << ")" << std::endl;
 	};
-
-
 
     ~Point() {}
 };
