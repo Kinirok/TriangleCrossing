@@ -1,4 +1,5 @@
-#include "logics/Line.h"
+#include "Line.h"
+#include <cstdio>
 //#include <GL/glut.h>
 
 // Global variables for correct work RenderScene function.
@@ -131,7 +132,6 @@ int main(int argc, char* argv[]) {
         std::cout << "Figures are Same";
     }
     IntersectionFigure.PrintIntersectionPoints();
-
     for (int i = 0; i < IntersectionFigure.GetSize(); i++) {
         IntersectionCoordinates.push_back(IntersectionFigure.GetCoordinatesIntersection()[i]);
     }/*
@@ -140,5 +140,7 @@ int main(int argc, char* argv[]) {
     ResizeCoordinates(argc, argv);
     glutDisplayFunc(RenderScene);
     glutMainLoop();*/
+    char end;
+    std::cin>> end;
     return 0;
 }
