@@ -17,7 +17,7 @@ protected:
     std::vector<Point> points8 = {Point(2, 4), Point(2, 2), Point(4, 2), Point(4, 4), Point(4, 4)};
     std::vector<Point> points9 = {Point(1, 3), Point(3, 5), Point(5, 3)};
     std::vector<Point> points10 = {Point(1, 3), Point(3, 5), Point(5, 3), Point(2, 1), Point(4, 1)};
-    std::vector<Point> points11 = {Point(2, 6), Point(4, 6), Point(0, 3), Point(6, 3), Point(5, 1), Point(1, 1)};
+    std::vector<Point> points11 = {Point(1, 1),Point(5, 1),Point(6, 3),Point(4, 6), Point(2, 6), Point(0, 3), };
     std::vector<Point> points12 = {Point(4, 2), Point(8, 2), Point(8, 4), Point(6, 6)};
     std::vector<Point> points13 = {Point(6, 4), Point(10, 6), Point(10, 8)};
     Intersection tr1 = Intersection(3, points1);
@@ -48,8 +48,7 @@ TEST_F(IntersectionFixture, SameDim3_TwoPointIntersection) {
     std::vector<Point> FiguresIntersection;
     Intersection IntersectionFigure(0, FiguresIntersection);
     IntersectionFigure.FigureIntersectionContour(IntersectionFigure, tr1, tr2);
-    FindPointsInsideFigure(IntersectionFigure, tr1.GetCoordinatesIntersection(),
-                           tr2.GetCoordinatesIntersection());
+    FindPointsInsideFigure(IntersectionFigure, tr1,tr2);
     IntersectionFigure.SetSize(IntersectionFigure.GetCoordinatesIntersection().size());
     EXPECT_EQ(IntersectionFigure.GetSize(), 2);
 }
@@ -58,8 +57,7 @@ TEST_F(IntersectionFixture, SameDim3_OnePointIntersection) {
     std::vector<Point> FiguresIntersection;
     Intersection IntersectionFigure(0, FiguresIntersection);
     IntersectionFigure.FigureIntersectionContour(IntersectionFigure, tr2, tr3);
-    FindPointsInsideFigure(IntersectionFigure, tr2.GetCoordinatesIntersection(),
-                           tr3.GetCoordinatesIntersection());
+    FindPointsInsideFigure(IntersectionFigure, tr2,tr3);
     IntersectionFigure.SetSize(IntersectionFigure.GetCoordinatesIntersection().size());
     EXPECT_EQ(IntersectionFigure.GetSize(), 1);
 }
@@ -68,8 +66,7 @@ TEST_F(IntersectionFixture, SameDim3_NoPointIntersection) {
     std::vector<Point> FiguresIntersection;
     Intersection IntersectionFigure(0, FiguresIntersection);
     IntersectionFigure.FigureIntersectionContour(IntersectionFigure, tr3, tr4);
-    FindPointsInsideFigure(IntersectionFigure, tr3.GetCoordinatesIntersection(),
-                           tr4.GetCoordinatesIntersection());
+    FindPointsInsideFigure(IntersectionFigure, tr3,tr4);
     IntersectionFigure.SetSize(IntersectionFigure.GetCoordinatesIntersection().size());
     EXPECT_EQ(IntersectionFigure.GetSize(), 0);
 }
@@ -78,8 +75,7 @@ TEST_F(IntersectionFixture, SameDim3_SixPointIntersection) {
     std::vector<Point> FiguresIntersection;
     Intersection IntersectionFigure(0, FiguresIntersection);
     IntersectionFigure.FigureIntersectionContour(IntersectionFigure, tr5, tr6);
-    FindPointsInsideFigure(IntersectionFigure, tr5.GetCoordinatesIntersection(),
-                           tr6.GetCoordinatesIntersection());
+    FindPointsInsideFigure(IntersectionFigure, tr5,tr6);
     IntersectionFigure.SetSize(IntersectionFigure.GetCoordinatesIntersection().size());
     EXPECT_EQ(IntersectionFigure.GetSize(), 6);
 }
@@ -88,8 +84,7 @@ TEST_F(IntersectionFixture, SameDim4_FourPointIntersection) {
     std::vector<Point> FiguresIntersection;
     Intersection IntersectionFigure(0, FiguresIntersection);
     IntersectionFigure.FigureIntersectionContour(IntersectionFigure, square1, square2);
-    FindPointsInsideFigure(IntersectionFigure, square1.GetCoordinatesIntersection(),
-                           square2.GetCoordinatesIntersection());
+    FindPointsInsideFigure(IntersectionFigure, square1,square2);
     IntersectionFigure.SetSize(IntersectionFigure.GetCoordinatesIntersection().size());
     EXPECT_EQ(IntersectionFigure.GetSize(), 4);
 }
@@ -98,8 +93,7 @@ TEST_F(IntersectionFixture, DiffDim_OnePointIntersection) {
     std::vector<Point> FiguresIntersection;
     Intersection IntersectionFigure(0, FiguresIntersection);
     IntersectionFigure.FigureIntersectionContour(IntersectionFigure, square1, tr2);
-    FindPointsInsideFigure(IntersectionFigure, square1.GetCoordinatesIntersection(),
-                           tr2.GetCoordinatesIntersection());
+    FindPointsInsideFigure(IntersectionFigure, square1,tr2);
     IntersectionFigure.SetSize(IntersectionFigure.GetCoordinatesIntersection().size());
     EXPECT_EQ(IntersectionFigure.GetSize(), 1);
 }
@@ -108,8 +102,7 @@ TEST_F(IntersectionFixture, DiffDim_ThreePointIntersection) {
     std::vector<Point> FiguresIntersection;
     Intersection IntersectionFigure(0, FiguresIntersection);
     IntersectionFigure.FigureIntersectionContour(IntersectionFigure, tr7, fig1);
-    FindPointsInsideFigure(IntersectionFigure, tr7.GetCoordinatesIntersection(),
-                           fig1.GetCoordinatesIntersection());
+    FindPointsInsideFigure(IntersectionFigure, tr7,fig1);
     IntersectionFigure.SetSize(IntersectionFigure.GetCoordinatesIntersection().size());
     EXPECT_EQ(IntersectionFigure.GetSize(), 3);
 }
@@ -118,8 +111,7 @@ TEST_F(IntersectionFixture, DiffDimInnerFigure_ThreePointIntersection) {
     std::vector<Point> FiguresIntersection;
     Intersection IntersectionFigure(0, FiguresIntersection);
     IntersectionFigure.FigureIntersectionContour(IntersectionFigure, tr7, fig2);
-    FindPointsInsideFigure(IntersectionFigure, tr7.GetCoordinatesIntersection(),
-                           fig2.GetCoordinatesIntersection());
+    FindPointsInsideFigure(IntersectionFigure, tr7, fig2);
     IntersectionFigure.SetSize(IntersectionFigure.GetCoordinatesIntersection().size());
     EXPECT_EQ(IntersectionFigure.GetSize(), 3);
 }
@@ -128,8 +120,8 @@ TEST_F(IntersectionFixture, DiffDim2_ThreePointIntersection) {
     std::vector<Point> FiguresIntersection;
     Intersection IntersectionFigure(0, FiguresIntersection);
     IntersectionFigure.FigureIntersectionContour(IntersectionFigure, tr8, fig3);
-    FindPointsInsideFigure(IntersectionFigure, tr8.GetCoordinatesIntersection(),
-                           fig3.GetCoordinatesIntersection());
+    FindPointsInsideFigure(IntersectionFigure, tr8, fig3);
     IntersectionFigure.SetSize(IntersectionFigure.GetCoordinatesIntersection().size());
     EXPECT_EQ(IntersectionFigure.GetSize(), 3);
 }
+
