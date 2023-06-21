@@ -146,14 +146,14 @@ std::vector<Point> ConvexHull(std::vector<Point>& points) {
     return convexHullPoints;
 }
 
-bool IsInsideFigure(Point Point, Intersection Figure1) {
-    std::vector figure = Figure1.GetCoordinatesIntersection();
+bool IsInsideFigure(Point point, Intersection Figure1) {
+    std::vector<Point> figure = Figure1.GetCoordinatesIntersection();
     int numVertices = figure.size();
     int i, j;
     bool isInside = false;
     for (i = 0, j = numVertices - 1; i < numVertices; j = i++) {
-        if (((figure[i].GetY() > Point.GetY()) != (figure[j].GetY() > Point.GetY())) &&
-            (Point.GetX() < (figure[j].GetX() - figure[i].GetX()) * (Point.GetY() - figure[i].GetY()) /
+        if (((figure[i].GetY() > point.GetY()) != (figure[j].GetY() > point.GetY())) &&
+            (point.GetX() < (figure[j].GetX() - figure[i].GetX()) * (point.GetY() - figure[i].GetY()) /
                        (figure[j].GetY() - figure[i].GetY()) + figure[i].GetX()))
             isInside = !isInside;
     }
