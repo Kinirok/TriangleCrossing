@@ -125,7 +125,7 @@ int main(int argc, char* argv[]) {
             std::vector<Point> Points = IntersectionFigure.GetCoordinatesIntersection();
             std::vector<Point> SortedPoints = ConvexHull(Points);
             IntersectionFigure.SetCoordinatesIntersection(SortedPoints);
-        }*/   
+        }*/
     }
     else {
         std::cout << "Figures are Same";
