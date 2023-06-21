@@ -19,8 +19,11 @@ public:
     void SetSize(int size);
 	~Intersection() {}
 };
-void FindPointsInsideFigure(Intersection& AllPoints, std::vector<Point> Figure1, std::vector<Point> Figure2);
+
 int Orientation(Point p, Point q, Point r);
 bool Compare(Point p, Point q);
 int FindMinPoint(std::vector<Point>& points);
 std::vector<Point> ConvexHull(std::vector<Point>& points);
+bool IsInsideFigure(Point Point, Intersection Figure1);
+bool IsVertex(Point Point, Intersection Figure);
+void FindPointsInsideFigure(Intersection& AllPoints, Intersection Figure1, Intersection Figure2);
