@@ -140,245 +140,49 @@ std::vector<Point> ConvexHull(std::vector<Point>& points) {
 
     convexHullPoints = stack;
 
+    if (convexHullPoints.size()!=points.size()){
+        throw std::invalid_argument("Is not a convex figure");
+    }
     return convexHullPoints;
 }
-void FindPointsInsideFigure(Intersection& AllPoints, std::vector<Point> Figure1, std::vector<Point> Figure2) {
-    std::vector<Point> insidePoints = AllPoints.GetCoordinatesIntersection();
-    Line First;
-    Line Second;
-    for (int i = 0; i < Figure1.size(); i++) {
-        bool isInside = true;
-        for (int j = 0; j < Figure2.size(); j++) {
-            int indexForEnd = j + 1;
-            int indexForBegin = j - 1;
-            if (j == Figure2.size() - 1) {
-                indexForEnd = 0;
-            }
-            else if (j == 0) {
-                indexForBegin = Figure2.size() - 1;
-            }
-            if ((Figure2[j].GetY() <= Figure2[indexForBegin].GetY() and Figure2[j].GetY() <= Figure2[indexForEnd].GetY()) or ((Figure2[j].GetY() >= Figure2[indexForBegin].GetY() and Figure2[j].GetY() >= Figure2[indexForEnd].GetY()))) {       
-                if (Figure2[indexForBegin].GetX() < Figure2[indexForEnd].GetX()) {
-                    First = Line::Line(Figure2[j], Figure2[indexForBegin]);            
-                    Second = Line::Line(Figure2[j], Figure2[indexForEnd]);
-                }
-                else if(Figure2[indexForBegin].GetX() > Figure2[indexForEnd].GetX()) {
-                    First = Line::Line(Figure2[j], Figure2[indexForEnd]);
-                    Second = Line::Line(Figure2[j], Figure2[indexForBegin]);
-                }  
-                else {
-                    if (Figure2[indexForBegin].GetY() < Figure2[indexForEnd].GetY()) {
-                        First = Line::Line(Figure2[j], Figure2[indexForEnd]);
-                        Second = Line::Line(Figure2[j], Figure2[indexForBegin]);
-                    }
-                    else {
-                        First = Line::Line(Figure2[j], Figure2[indexForBegin]);
-                        Second = Line::Line(Figure2[j], Figure2[indexForEnd]);
-                    }
-                }
-                bool isUpperSide = true;
-                for (int k = 0; k < Figure2.size(); k++) {
-                    if (Figure2[j].GetY() > Figure2[k].GetY()) {
-                        isUpperSide = false;
-                    }
-                }
-                if ((isUpperSide == true and Figure1[i].GetY() > Figure2[j].GetY()) or (isUpperSide == false and Figure1[i].GetY() < Figure2[j].GetY())) {
-                    if (First.GetA() != 0 and Second.GetA() != 0) {
-                        if (!(First.GetXbyY(Figure1[i].GetY()) < Figure1[i].GetX() and Figure1[i].GetX() < Second.GetXbyY(Figure1[i].GetY()))) {
-                            isInside = false;
-                            break;
-                        }
-                    }
-                    else if (First.GetA() == 0 and Second.GetA() != 0) {                        
-                        if (!(Figure1[i].GetX() < Second.GetXbyY(Figure1[i].GetY()))) {
-                            isInside = false;
-                            break;
-                        }
-                    }
-                    else if (First.GetA() != 0 and Second.GetA() == 0) {
-                        if (!(First.GetXbyY(Figure1[i].GetY()) < Figure1[i].GetX())) {
-                            isInside = false;
-                            break;
-                        }
-                    }
-                }
-                else {
-                    isInside = false;
-                    break;
-                }
-            }
-            else {
-                if (Figure2[indexForBegin].GetY() < Figure2[indexForEnd].GetY()) {
-                    First = Line::Line(Figure2[j], Figure2[indexForBegin]);
-                    Second = Line::Line(Figure2[j], Figure2[indexForEnd]);
-                }
-                else if(Figure2[indexForBegin].GetY() > Figure2[indexForEnd].GetY()) {
-                    First = Line::Line(Figure2[j], Figure2[indexForEnd]);
-                    Second = Line::Line(Figure2[j], Figure2[indexForBegin]);
-                }
-                else {
-                    if (Figure2[indexForBegin].GetX() > Figure2[indexForEnd].GetX()) {
-                        First = Line::Line(Figure2[j], Figure2[indexForEnd]);
-                        Second = Line::Line(Figure2[j], Figure2[indexForBegin]);
-                    }
-                    else {
-                        First = Line::Line(Figure2[j], Figure2[indexForBegin]);
-                        Second = Line::Line(Figure2[j], Figure2[indexForEnd]);
-                    }
-                }
-                bool isRightSide = true;
-                for (int k = 0; k < Figure2.size(); k++) {
-                    if (Figure2[j].GetY() > Figure2[k].GetY()) {
-                        isRightSide = false;
-                    }
-                }
-                if ((isRightSide == true and Figure1[i].GetX() > Figure2[j].GetX()) or (isRightSide == false and Figure1[i].GetX() < Figure2[j].GetX())) {
-                    if (First.GetB() != 0 and Second.GetB() != 0) {
-                        if (!(First.GetYbyX(Figure1[i].GetX()) < Figure1[i].GetY() and Figure1[i].GetY() < Second.GetYbyX(Figure1[i].GetX()))) {
-                            
-                            isInside = false;
-                            break;
-                        }
-                    }
-                    else if (First.GetB() == 0 and Second.GetB() != 0) {                        
-                        if (!(Figure1[i].GetY() < Second.GetYbyX(Figure1[i].GetX()))) {
-                            isInside = false;
-                            break;
-                        }
-                    }
-                    else if (First.GetB() != 0 and Second.GetB() == 0) {                        
-                        if (!(First.GetYbyX(Figure1[i].GetX()) < Figure1[i].GetY())) {
-                            isInside = false;
-                            break;
-                        }
-                    }
-                }
-                else {
-                    isInside = false;
-                    break;
-                }
-            }
-        }
-        if (isInside == true) {            
-            insidePoints.push_back(Figure1[i]);
-        }
-    }
-    for (int i = 0; i < Figure2.size(); i++) {
-        bool isInside = true;
-        for (int j = 0; j < Figure1.size(); j++) {
-            int indexForEnd = j + 1;
-            int indexForBegin = j - 1;
-            if (j == Figure1.size() - 1) {
-                indexForEnd = 0;
-            }
-            else if (j == 0) {
-                indexForBegin = Figure1.size() - 1;
-            }
-            if ((Figure1[j].GetY() <= Figure1[indexForBegin].GetY() and Figure1[j].GetY() <= Figure1[indexForEnd].GetY()) or ((Figure1[j].GetY() >= Figure1[indexForBegin].GetY() and Figure1[j].GetY() >= Figure1[indexForEnd].GetY()))) {
-                if (Figure1[indexForBegin].GetX() < Figure1[indexForEnd].GetX()) {
-                    First= Line::Line(Figure1[j], Figure1[indexForBegin]);
-                    Second = Line::Line(Figure1[j], Figure1[indexForEnd]);
-                }
-                else if(Figure1[indexForBegin].GetX() > Figure1[indexForEnd].GetX()){
-                    First = Line::Line(Figure1[j], Figure1[indexForEnd]);
-                    Second = Line::Line(Figure1[j], Figure1[indexForBegin]);
-                }
-                else {
-                    if (Figure2[indexForBegin].GetY() < Figure2[indexForEnd].GetY()) {
-                        First = Line::Line(Figure2[j], Figure2[indexForEnd]);
-                        Second = Line::Line(Figure2[j], Figure2[indexForBegin]);
-                    }
-                    else {
-                        First = Line::Line(Figure2[j], Figure2[indexForBegin]);
-                        Second = Line::Line(Figure2[j], Figure2[indexForEnd]);
-                    }
-                }
-                bool isUpperSide = true;
-                for (int k = 0; k < Figure1.size(); k++) {
-                    if (Figure1[j].GetY() > Figure1[k].GetY()) {
-                        isUpperSide = false;
-                    }
-                }
-                if ((isUpperSide == true and Figure2[i].GetY() > Figure1[j].GetY()) or (isUpperSide == false and Figure2[i].GetY() < Figure1[j].GetY())) {
-                    if (First.GetA() != 0 and Second.GetA() != 0) {
-                        if (!(First.GetXbyY(Figure2[i].GetY()) < Figure2[i].GetX() and Figure2[i].GetX() < Second.GetXbyY(Figure2[i].GetY()))) {
-                            isInside = false;
-                            break;
-                        }
-                    }
-                    else if (First.GetA() == 0 and Second.GetA() != 0) {
-                        if (!(Figure2[i].GetX() < Second.GetXbyY(Figure2[i].GetY()))) {
-                            isInside = false;
-                            break;
-                        }
-                    }
-                    else if (First.GetA() != 0 and Second.GetA() == 0) {
-                        if (!(First.GetXbyY(Figure2[i].GetY()) < Figure2[i].GetX())) {
-                            isInside = false;
-                            break;
-                        }
-                    }
-                }
-                else {
-                    isInside = false;
-                    break;
-                }
-            }
-            else {
-                if (Figure1[indexForBegin].GetY() < Figure1[indexForEnd].GetY()) {
-                    First = Line::Line(Figure1[j], Figure1[indexForBegin]);
-                    Second = Line::Line(Figure1[j], Figure1[indexForEnd]);
-                }
-                else if (Figure1[indexForBegin].GetY() > Figure1[indexForEnd].GetY()) {
-                    First = Line::Line(Figure1[j], Figure1[indexForEnd]);
-                    Second = Line::Line(Figure1[j], Figure1[indexForBegin]);
-                }
-                else {
-                    if (Figure2[indexForBegin].GetX() > Figure2[indexForEnd].GetX()) {
-                        First = Line::Line(Figure2[j], Figure2[indexForEnd]);
-                        Second = Line::Line(Figure2[j], Figure2[indexForBegin]);
-                    }
-                    else {
-                        First = Line::Line(Figure2[j], Figure2[indexForBegin]);
-                        Second = Line::Line(Figure2[j], Figure2[indexForEnd]);
-                    }
-                }
 
-                bool isRightSide = true;
-                for (int k = 0; k < Figure1.size(); k++) {
-                    if (Figure1[j].GetX() > Figure1[k].GetX()) {
-                        isRightSide = false;
-                    }
-                }
-                if ((isRightSide == true and Figure2[i].GetX() > Figure1[j].GetX()) or (isRightSide == false and Figure2[i].GetX() < Figure1[j].GetX())) {
-                    if (First.GetB() != 0 and Second.GetB() != 0) {
-                        if (!(First.GetYbyX(Figure2[i].GetX()) < Figure2[i].GetY() and Figure2[i].GetY()  < Second.GetYbyX(Figure2[i].GetX()))) {
-                            isInside = false;
-                            break;
-                        }
-                    }
-                    else if (First.GetB() == 0 and Second.GetB() != 0) {
-                        if (!(Figure2[i].GetY() < Second.GetYbyX(Figure2[i].GetX()))) {
-                            isInside = false;
-                            break;
-                        }
-                    }
-                    else if (First.GetB() != 0 and Second.GetB() == 0) {
-                        if (!(First.GetYbyX(Figure2[i].GetX()) < Figure2[i].GetY())) {
-                            isInside = false;
-                            break;
-                        }
-                    }
-                }
-                else {
-                    isInside = false;
-                    break;
-                }
-            }
-        }
-        if (isInside == true) {
-            insidePoints.push_back(Figure2[i]);
+bool IsInsideFigure(Point Point, Intersection Figure1) {
+    std::vector figure = Figure1.GetCoordinatesIntersection();
+    int numVertices = figure.size();
+    int i, j;
+    bool isInside = false;
+    for (i = 0, j = numVertices - 1; i < numVertices; j = i++) {
+        if (((figure[i].GetY() > Point.GetY()) != (figure[j].GetY() > Point.GetY())) &&
+            (Point.GetX() < (figure[j].GetX() - figure[i].GetX()) * (Point.GetY() - figure[i].GetY()) /
+                       (figure[j].GetY() - figure[i].GetY()) + figure[i].GetX()))
+            isInside = !isInside;
+    }
+    return isInside;
+}
+
+bool IsVertex(Point Point, Intersection Figure){
+    bool isVertex = false;
+    int size=Figure.GetSize();
+    for (int i=0;i<size;i++){
+        if (Point.GetY()==Figure.GetCoordinatesIntersection()[i].GetY() and Point.GetX()==Figure.GetCoordinatesIntersection()[i].GetX()){
+            isVertex=!isVertex;
+            break;
         }
     }
-    AllPoints.SetCoordinatesIntersection(insidePoints);
+    return isVertex;
+}
+
+void FindPointsInsideFigure(Intersection& AllPoints, Intersection Figure1, Intersection Figure2){
+    int size1 = Figure1.GetSize();
+    int size2 = Figure2.GetSize();
+    for (int i=0;i<size1;i++){
+        if (IsInsideFigure(Figure1.GetCoordinatesIntersection()[i],Figure2) and !IsVertex(Figure1.GetCoordinatesIntersection()[i],Figure2)){
+            AllPoints.SetIntersectionPoint(Figure1.GetCoordinatesIntersection()[i]);
+        }
+    }
+    for (int j=0;j<size2;j++){
+        if (IsInsideFigure(Figure2.GetCoordinatesIntersection()[j],Figure1) and !IsVertex(Figure2.GetCoordinatesIntersection()[j],Figure1)){
+            AllPoints.SetIntersectionPoint(Figure2.GetCoordinatesIntersection()[j]);
+        }
+    }
 }
