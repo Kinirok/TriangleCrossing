@@ -1,12 +1,13 @@
-#include "Line.h"
+
 #include <cstdio>
-//#include <GL/glut.h>
+#include "logics/Line.h"
+#include <GL/glut.h>
 
 // Global variables for correct work RenderScene function.
 std::vector<Point> FiguresCoordinates;
 std::vector<Point> IntersectionCoordinates;
 int size_1;
-/*
+
 void ResizeCoordinates(int argc, char* argv[])
 {
     //All coordinates in OpenGl must be between -1 and 1 for the visualisation to be correct.
@@ -65,7 +66,9 @@ void RenderScene(void)
     }
     glEnd();
     glFlush();
-}*/
+
+}
+
 
 int main(int argc, char* argv[]) {
 
@@ -126,7 +129,7 @@ int main(int argc, char* argv[]) {
             std::vector<Point> Points = IntersectionFigure.GetCoordinatesIntersection();
             std::vector<Point> SortedPoints = ConvexHull(Points);
             IntersectionFigure.SetCoordinatesIntersection(SortedPoints);
-        }*/
+        }*/   
     }
     else {
         std::cout << "Figures are Same";
@@ -134,7 +137,7 @@ int main(int argc, char* argv[]) {
     IntersectionFigure.PrintIntersectionPoints();
     for (int i = 0; i < IntersectionFigure.GetSize(); i++) {
         IntersectionCoordinates.push_back(IntersectionFigure.GetCoordinatesIntersection()[i]);
-    }/*
+    }
     glutInit(&argc, argv);
     glutCreateWindow("FiguresCrossing(OpenGL)");
     ResizeCoordinates(argc, argv);
