@@ -1,3 +1,5 @@
+
+#include <cstdio>
 #include "logics/Line.h"
 #include <GL/glut.h>
 
@@ -64,7 +66,9 @@ void RenderScene(void)
     }
     glEnd();
     glFlush();
+
 }
+
 
 int main(int argc, char* argv[]) {
 
@@ -119,7 +123,7 @@ int main(int argc, char* argv[]) {
     Intersection IntersectionFigure(0, FiguresIntersection);
     if (!FirstFigure.IsIdenticalIntersection(FirstFigure, SecondFigure)) {
         IntersectionFigure.FigureIntersectionContour(IntersectionFigure, FirstFigure, SecondFigure);
-        FindPointsInsideFigure(IntersectionFigure, FirstFigure.GetCoordinatesIntersection(), SecondFigure.GetCoordinatesIntersection());
+        FindPointsInsideFigure(IntersectionFigure, FirstFigure, SecondFigure);
         IntersectionFigure.SetSize(IntersectionFigure.GetCoordinatesIntersection().size());
         /*if (IntersectionFigure.GetSize() > 3) {
             std::vector<Point> Points = IntersectionFigure.GetCoordinatesIntersection();
@@ -131,7 +135,6 @@ int main(int argc, char* argv[]) {
         std::cout << "Figures are Same";
     }
     IntersectionFigure.PrintIntersectionPoints();
-
     for (int i = 0; i < IntersectionFigure.GetSize(); i++) {
         IntersectionCoordinates.push_back(IntersectionFigure.GetCoordinatesIntersection()[i]);
     }
@@ -139,6 +142,8 @@ int main(int argc, char* argv[]) {
     glutCreateWindow("FiguresCrossing(OpenGL)");
     ResizeCoordinates(argc, argv);
     glutDisplayFunc(RenderScene);
-    glutMainLoop();
+    glutMainLoop();*/
+    char end;
+    std::cin>> end;
     return 0;
 }
