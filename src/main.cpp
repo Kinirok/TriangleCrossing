@@ -142,7 +142,7 @@ int main(int argc, char* argv[]) {
     glutCreateWindow("FiguresCrossing(OpenGL)");
     ResizeCoordinates(argc, argv);
     glutDisplayFunc(RenderScene);
-    glutMainLoop();*/
+    glutMainLoop();
     char end;
     std::cin>> end;
     return 0;
